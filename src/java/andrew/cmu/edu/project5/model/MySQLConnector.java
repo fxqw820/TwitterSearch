@@ -32,16 +32,12 @@ public class MySQLConnector {
 
     public MySQLConnector() {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter2?" + "user=root&password=rainforest");
+            Class.forName("com.mysql.jdbc.Driver");
+            connect = DriverManager.getConnection("jdbc:mysql://54.80.111.68:3306/twitter?" + "user=root&password=rainforest");
             statement = (Statement) connect.createStatement();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        }catch (SQLException ex) {
             Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -66,8 +62,8 @@ public class MySQLConnector {
 
     public void connectWithMySQL() {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter2?" + "user=root&password=rainforest");
+            Class.forName("com.mysql.jdbc.Driver");
+            connect = DriverManager.getConnection("jdbc:mysql://ec2-54-80-111-68.compute-1.amazonaws.com:3306/twitter?" + "user=root&password=rainforest");
             statement = (Statement) connect.createStatement();
             statement.executeUpdate("CREATE TABLE twitts (uid VARCHAR(10) NOT NULL, time VARCHAR(40), tid VARCHAR(20) NOT NULL, PRIMARY KEY (uid, tid));");
 
@@ -95,7 +91,7 @@ public class MySQLConnector {
 
     public static void main(String[] args) {
         MySQLConnector t = new MySQLConnector();
-        t.toCSV();
+        t.getTweetID("1200266719", "2014-01-22+12:21:45");
     }
 
     public ArrayList<String> getTweetID(String userid, String time) {
