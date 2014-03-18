@@ -41,8 +41,8 @@ public class q2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println(teamID  + ", " + AWSID);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            out.println(dateFormat.format(new Date()));
+            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //out.println(dateFormat.format(new Date()));
             String userid = request.getParameter("userid");
             String time = request.getParameter("tweet_time");
             MySQLConnector mySql = new MySQLConnector();
