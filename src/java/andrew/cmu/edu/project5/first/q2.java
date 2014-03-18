@@ -6,9 +6,11 @@
 
 package andrew.cmu.edu.project5.first;
 
+import andrew.cmu.edu.project5.model.MySQLConnector;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,21 +40,16 @@ public class q2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet q1</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>" + teamID  + ", " + AWSID + "</h1>");
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            out.println("<h2>" + dateFormat.format(new Date()) + "</h2>");
-//            out.println("</body>");
-//            out.println("</html>");
             out.println(teamID  + ", " + AWSID);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            out.println(dateFormat.format(new Date()));            
+            out.println(dateFormat.format(new Date()));
+            String userid = request.getParameter("userid");
+            String time = request.getParameter("tweet_time");
+            MySQLConnector mySql = new MySQLConnector();
+            ArrayList<String> tweetID = mySql.getTweetID(userid, time);
+            for (String tweet : tweetID){
+                out.println(tweet);
+            }
         } catch (Exception ex){
             ex.printStackTrace();
         }

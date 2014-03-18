@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
@@ -27,6 +29,22 @@ public class MySQLConnector {
     private Connection connect = null;
     private Statement statement = null;
     private ResultSet result = null;
+
+    public MySQLConnector() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter2?" + "user=root&password=rainforest");
+            statement = (Statement) connect.createStatement();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void toCSV() {
         try {
@@ -52,7 +70,7 @@ public class MySQLConnector {
             connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter2?" + "user=root&password=rainforest");
             statement = (Statement) connect.createStatement();
             statement.executeUpdate("CREATE TABLE twitts (uid VARCHAR(10) NOT NULL, time VARCHAR(40), tid VARCHAR(20) NOT NULL, PRIMARY KEY (uid, tid));");
-            
+
             BufferedReader input = new BufferedReader(new FileReader(new File(inputfilename)));
             String inputLine = null;
             while ((inputLine = input.readLine()) != null) {
@@ -78,5 +96,20 @@ public class MySQLConnector {
     public static void main(String[] args) {
         MySQLConnector t = new MySQLConnector();
         t.toCSV();
+    }
+
+    public ArrayList<String> getTweetID(String userid, String time) {
+        ArrayList<String> tweetID = new ArrayList<String>();
+        try {
+            String query = "SELECT tid FROM twitts WHERE uid=" + userid+" AND time=" + "time;";
+            result = statement.executeQuery(time);
+            while(result.next()){
+                tweetID.add(result.getString("tid"));
+            }
+            return tweetID;
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tweetID;
     }
 }
