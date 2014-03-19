@@ -33,7 +33,7 @@ public class MySQLConnector {
     public MySQLConnector() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://54.80.111.68:3306/twitter?" + "user=root&password=rainforest");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter","root","rainforest");
             statement = (Statement) connect.createStatement();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,7 +63,7 @@ public class MySQLConnector {
     public void connectWithMySQL() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://ec2-54-80-111-68.compute-1.amazonaws.com:3306/twitter?" + "user=root&password=rainforest");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter?" + "user=root&password=rainforest");
             statement = (Statement) connect.createStatement();
             statement.executeUpdate("CREATE TABLE twitts (uid VARCHAR(10) NOT NULL, time VARCHAR(40), tid VARCHAR(20) NOT NULL, PRIMARY KEY (uid, tid));");
 
@@ -91,14 +91,18 @@ public class MySQLConnector {
 
     public static void main(String[] args) {
         MySQLConnector t = new MySQLConnector();
-        t.getTweetID("1200266719", "2014-01-22+12:21:45");
+        ArrayList<String> result = t.getTweetID("1200266719", "'2014-01-22+12:21:45'");
+        for (String tweet: result){
+            System.out.println(tweet);
+        }
     }
 
     public ArrayList<String> getTweetID(String userid, String time) {
         ArrayList<String> tweetID = new ArrayList<String>();
         try {
-            String query = "SELECT tid FROM twitts WHERE uid=" + userid+" AND time=" + "time;";
-            result = statement.executeQuery(time);
+            //String query = "SELECT tid FROM twitts WHERE uid=" + userid+" AND time=" + time +";";
+            String query = "SELECT tid FROM twitts WHERE uid=" + userid + ";";
+            result = statement.executeQuery(query);
             while(result.next()){
                 tweetID.add(result.getString("tid"));
             }
