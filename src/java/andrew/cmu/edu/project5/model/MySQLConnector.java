@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
@@ -100,12 +101,14 @@ public class MySQLConnector {
     public ArrayList<String> getTweetID(String userid, String time) {
         ArrayList<String> tweetID = new ArrayList<String>();
         try {
-            //String query = "SELECT tid FROM twitts WHERE uid=" + userid+" AND time=" + time +";";
-            String query = "SELECT tid FROM twitts WHERE uid=" + userid + ";";
+            //String query = "SELECT tid FROM twitts WHERE uid='" + userid+"' AND time='" + time +"';";
+            String query = "SELECT tid FROM twitts WHERE uid='" + userid 
+                    + "' AND time=(SELECT DATE_FORMAT('" + time + "', '%a %b %d %T +0000 %Y'));";
             result = statement.executeQuery(query);
             while(result.next()){
                 tweetID.add(result.getString("tid"));
             }
+            Collections.sort(tweetID);
             return tweetID;
         } catch (SQLException ex) {
             Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
