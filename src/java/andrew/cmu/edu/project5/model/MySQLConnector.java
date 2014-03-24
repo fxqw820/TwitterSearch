@@ -85,6 +85,7 @@ public class MySQLConnector {
                 System.out.print(result.getString("time") + "\t");
                 System.out.println(result.getString("tid"));
             }
+            connect.close();
         } catch (Exception ex) {
             Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
