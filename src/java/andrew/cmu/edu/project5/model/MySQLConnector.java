@@ -43,6 +43,13 @@ public class MySQLConnector {
         }
     }
 
+    public void closeConnection(){
+        try {
+            connect.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void toCSV() {
         try {
             BufferedReader input = new BufferedReader(new FileReader(new File(inputfilename)));
@@ -63,9 +70,9 @@ public class MySQLConnector {
 
     public void connectWithMySQL() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter?" + "user=root&password=rainforest");
-            statement = (Statement) connect.createStatement();
+//            Class.forName("com.mysql.jdbc.Driver");
+//            connect = DriverManager.getConnection("jdbc:mysql://localhost/twitter?" + "user=root&password=rainforest");
+//            statement = (Statement) connect.createStatement();
             statement.executeUpdate("CREATE TABLE twitts (uid VARCHAR(10) NOT NULL, time VARCHAR(40), tid VARCHAR(20) NOT NULL, PRIMARY KEY (uid, tid));");
 
             BufferedReader input = new BufferedReader(new FileReader(new File(inputfilename)));
@@ -85,7 +92,7 @@ public class MySQLConnector {
                 System.out.print(result.getString("time") + "\t");
                 System.out.println(result.getString("tid"));
             }
-            connect.close();
+//            connect.close();
         } catch (Exception ex) {
             Logger.getLogger(MySQLConnector.class.getName()).log(Level.SEVERE, null, ex);
         }

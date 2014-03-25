@@ -25,6 +25,7 @@ public class q2 extends HttpServlet {
 
     private static final String teamID = "Rainforest";
     private static final String AWSID = "2422-0942-6899";
+    private MySQLConnector mySql = new MySQLConnector();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -45,7 +46,7 @@ public class q2 extends HttpServlet {
             //out.println(dateFormat.format(new Date()));
             String userid = request.getParameter("userid");
             String time = request.getParameter("tweet_time");
-            MySQLConnector mySql = new MySQLConnector();
+            
             ArrayList<String> tweetID = mySql.getTweetID(userid, time);
             for (String tweet : tweetID){
                 out.println(tweet);
@@ -79,4 +80,10 @@ public class q2 extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    @Override
+    public void destroy() {
+        mySql.closeConnection();
+        super.destroy(); //To change body of generated methods, choose Tools | Templates.
+    }   
+    
 }
