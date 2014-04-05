@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fxqw8_000
  */
-public class q2 extends HttpServlet {
+public class q3 extends HttpServlet {
 
     private static final String teamID = "Rainforest";
     private static final String AWSID = "2422-0942-6899";
@@ -42,14 +42,11 @@ public class q2 extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println(teamID  + ", " + AWSID);
-            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            //out.println(dateFormat.format(new Date()));
             String userid = request.getParameter("userid");
-            String time = request.getParameter("tweet_time");
             
-            ArrayList<String> tweetID = mySql.getTweetID(userid, time);
-            for (String tweet : tweetID){
-                out.println(tweet);
+            ArrayList<String> userID = mySql.getRetweetUserID(userid);
+            for (String user : userID){
+                out.println(user);
             }
         } catch (Exception ex){
             ex.printStackTrace();
