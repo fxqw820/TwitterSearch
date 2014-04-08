@@ -32,9 +32,9 @@ public class q1 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(teamID  + ", " + AWSID);
+            out.print(teamID  + ", " + AWSID + "\n");
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            out.println(dateFormat.format(new Date()));
+            out.print(dateFormat.format(new Date()) + "\n");
             
         } catch (Exception ex){
             ex.printStackTrace();

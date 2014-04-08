@@ -60,13 +60,13 @@ public class MySQLConnector {
         try {
             //String query = "SELECT tid FROM twitts WHERE uid='" + userid+"' AND time='" + time +"';";
             String query = "SELECT tid FROM twitts WHERE uid='" + userid 
-                    + "' AND time=(SELECT DATE_FORMAT('" + time + "', '%a %b %d %T +0000 %Y')) ORDER BY tid;";
+                    + "' AND time=(SELECT DATE_FORMAT('" + time + "', '%a %b %d %T +0000 %Y'));";
             Statement statement = (Statement) connect.createStatement();
             ResultSet result = statement.executeQuery(query);
             while(result.next()){
                 tweetID.add(result.getString("tid"));
             }
-            //Collections.sort(tweetID);
+            Collections.sort(tweetID);
             result.close();
             statement.close();
             return tweetID;
@@ -76,17 +76,17 @@ public class MySQLConnector {
         return tweetID;
     }
     
-        public ArrayList<String> getRetweetUserID(String userid) {
-        ArrayList<String> userID = new ArrayList<String>();
+        public ArrayList<Long> getRetweetUserID(String userid) {
+        ArrayList<Long> userID = new ArrayList<Long>();
         try {
             //String query = "SELECT tid FROM twitts WHERE uid='" + userid+"' AND time='" + time +"';";
-            String query = "SELECT DISTINCT uid FROM twitts WHERE original_uid='" + userid + " ORDER BY uid";
+            String query = "SELECT DISTINCT uid FROM twitts WHERE original_uid='" + userid + "';";
             Statement statement = (Statement) connect.createStatement();
             ResultSet result = statement.executeQuery(query);
             while(result.next()){
-                userID.add(result.getString("uid"));
+                userID.add(Long.valueOf(result.getString("uid")));
             }
-            //Collections.sort(userID);
+            Collections.sort(userID);
             result.close();
             statement.close();
             return userID;

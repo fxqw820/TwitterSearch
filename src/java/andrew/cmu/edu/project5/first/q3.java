@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package andrew.cmu.edu.project5.first;
 
 import andrew.cmu.edu.project5.model.MySQLConnector;
@@ -44,8 +38,8 @@ public class q3 extends HttpServlet {
             out.println(teamID  + ", " + AWSID);
             String userid = request.getParameter("userid");
             
-            ArrayList<String> userID = mySql.getRetweetUserID(userid);
-            for (String user : userID){
+            ArrayList<Long> userID = mySql.getRetweetUserID(userid);
+            for (long user : userID){
                 out.println(user);
             }
         } catch (Exception ex){

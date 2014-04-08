@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +24,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class q2 extends HttpServlet {
 
-    private static final String teamID = "Rainforest";
-    private static final String AWSID = "2422-0942-6899";
-    private MySQLConnector mySql = new MySQLConnector();
+    private static String teamID;
+    private static String AWSID;
+    private MySQLConnector mySql;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config); //To change body of generated methods, choose Tools | Templates.
+        teamID = "Rainforest";
+        AWSID = "2422-0942-6899";
+        mySql = new MySQLConnector();
+    }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -41,7 +52,7 @@ public class q2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(teamID  + ", " + AWSID);
+            out.print(teamID  + ", " + AWSID + "\n");
             //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             //out.println(dateFormat.format(new Date()));
             String userid = request.getParameter("userid");
@@ -49,7 +60,7 @@ public class q2 extends HttpServlet {
             
             ArrayList<String> tweetID = mySql.getTweetID(userid, time);
             for (String tweet : tweetID){
-                out.println(tweet);
+                out.print(tweet + "\n");
             }
         } catch (Exception ex){
             ex.printStackTrace();
